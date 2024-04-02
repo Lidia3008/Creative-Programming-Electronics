@@ -1,0 +1,42 @@
+// Define motor control pins
+#define ENA 5   // Enable pin for motor A
+#define IN1 6   // Motor A input 1
+#define IN2 7   // Motor A input 2
+
+// Define solenoid control pin
+#define SOLENOID_PIN 8
+
+void setup() {
+  // Initialize motor control pins
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+
+  // Initialize solenoid pin
+  pinMode(SOLENOID_PIN, OUTPUT);
+}
+
+void loop() {
+  moveForward();      // Move the motor forward
+  delay(2000);        // Wait for 2 seconds
+  stopMotor();        // Stop the motor
+  activateSolenoid(); // Activate the solenoid
+  delay(1000);        // Wait for 1 second
+}
+
+void moveForward() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, 255); // Full speed, adjust as needed
+}
+
+void stopMotor() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+}
+
+void activateSolenoid() {
+  digitalWrite(SOLENOID_PIN, HIGH);
+  delay(500);  // Activate for half a second, adjust as needed
+  digitalWrite(SOLENOID_PIN, LOW);
+}
