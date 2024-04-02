@@ -1,0 +1,69 @@
+// Define motor control pins
+#define ENA 5   // Enable pin for motor A
+#define IN1 6   // Motor A input 1
+#define IN2 7   // Motor A input 2
+
+// Define solenoid control pins
+#define SOLENOID_PIN_1 8
+#define SOLENOID_PIN_2 9
+
+// Define switch pin
+#define SWITCH_PIN 10
+
+bool switchState = false;
+
+void setup() {
+  // Initialize motor control pins
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+
+  // Initialize solenoid pins
+  pinMode(SOLENOID_PIN_1, OUTPUT);
+  pinMode(SOLENOID_PIN_2, OUTPUT);
+
+  // Initialize switch pin
+  pinMode(SWITCH_PIN, INPUT_PULLUP);
+}
+
+void loop() {
+  // Check the state of the switch
+  if (digitalRead(SWITCH_PIN) == LOW) {
+    // If the switch is pressed, toggle switchState
+    switchState = !switchState;
+    delay(200); // Debounce delay
+  }
+
+  if (switchState) {
+    // If switch is ON, operate motor and solenoids
+    moveForward();      // Move the motor forward
+    delay(2000);        // Wait for 2 seconds
+    stopMotor();        // Stop the motor
+    activateSolenoid1(); // Activate solenoid 1
+    activateSolenoid2(); // Activate solenoid 2
+    delay(1000);        // Wait for 1 second
+  }
+}
+
+void moveForward() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, 255); // Full speed, adjust as needed
+}
+
+void stopMotor() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+}
+
+void activateSolenoid1() {
+  digitalWrite(SOLENOID_PIN_1, HIGH);
+  delay(500);  // Activate for half a second, adjust as needed
+  digitalWrite(SOLENOID_PIN_1, LOW);
+}
+
+void activateSolenoid2() {
+  digitalWrite(SOLENOID_PIN_2, HIGH);
+  delay(500);  // Activate for half a second, adjust as needed
+  digitalWrite(SOLENOID_PIN_2, LOW);
+}
