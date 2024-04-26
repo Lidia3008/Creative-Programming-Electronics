@@ -1,4 +1,4 @@
-int relyPin = 4;
+int relayPin = 4;
 int sensor_pin = A0;
 int output_value ;
 
@@ -17,9 +17,9 @@ void loop() {
  output_value = map(output_value, 550,10,0,100);
  Serial.print("Moisture: ");
  Serial.print(output_value);
- Seroal.println("%");
+ Serial.println("%");
  if(output_value<20){
-  digitalWrite(relayPin,LOW);
+  digitalWrite(relayPin, LOW);
  }
  else
  {
